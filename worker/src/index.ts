@@ -242,10 +242,12 @@ app.post('/api/ingest', async (c) => {
 
 app.get('/api/servers', async (c) => {
   // Authoritative host list comes from the hosts table.
+  // Alphabetical order so the dashboard layout stays stable between polls.
   const hostsRes = await c.env.DB.prepare(
     `SELECT host, ip, os, ram_total_mb, first_seen, last_seen
        FROM hosts
-       WHERE last_seen > ?`,
+       WHERE last_seen > ?
+       ORDER BY host ASC`,
   )
     .bind(Date.now() - retentionHours(c.env) * 3600 * 1000)
     .all<{
