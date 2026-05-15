@@ -1,0 +1,32 @@
+name = "vigil"
+main = "src/index.ts"
+compatibility_date = "2024-09-01"
+
+# --- KV: short-lived "latest snapshot per host" cache.
+# Create:  wrangler kv namespace create vigil-kv
+# Then replace REPLACE_WITH_KV_ID below with the printed id.
+[[kv_namespaces]]
+binding = "KV"
+id = "REPLACE_WITH_KV_ID"
+
+# --- D1: persistent history + hosts registry + notification config/log.
+# Create:  wrangler d1 create vigil
+# Then replace REPLACE_WITH_D1_ID below with the printed database_id.
+[[d1_databases]]
+binding = "DB"
+database_name = "vigil"
+database_id = "REPLACE_WITH_D1_ID"
+
+# --- Cron: evaluate alerts every minute.
+[triggers]
+crons = ["* * * * *"]
+
+# --- Secrets (NOT stored in this file; set them once with wrangler secret put).
+#   wrangler secret put API_KEY          # required: shared with every agent
+#
+# Optional vars (env, non-secret):
+[vars]
+# Seconds after which a host is considered stale even if KV still has its snap.
+STALE_SECONDS = "90"
+# Hours to keep raw metrics rows in D1.
+METRICS_RETENTION_HOURS = "24"

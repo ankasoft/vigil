@@ -1,0 +1,30 @@
+[Unit]
+Description=Vigil monitoring agent
+Documentation=https://github.com/ankasoft/vigil
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/env python3 /opt/vigil-agent/agent.py
+EnvironmentFile=/etc/vigil-agent.env
+Restart=always
+RestartSec=10
+User=nobody
+Group=nogroup
+
+# Hardening — agent only needs to read /proc and reach the network.
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictNamespaces=true
+RestrictRealtime=true
+LockPersonality=true
+MemoryDenyWriteExecute=true
+
+[Install]
+WantedBy=multi-user.target

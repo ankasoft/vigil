@@ -1,0 +1,29 @@
+# Node
+node_modules/
+dist/
+build/
+*.log
+.DS_Store
+
+# Wrangler / Cloudflare
+.wrangler/
+.dev.vars
+worker/.dev.vars
+
+# Vite
+dashboard/dist/
+dashboard/.env
+dashboard/.env.local
+
+# IDE
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.pyc
+
+# Personal/local secrets — never commit
+secrets.local.md
+*.secrets.md
+*.local.md
