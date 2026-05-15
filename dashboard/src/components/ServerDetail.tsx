@@ -1,5 +1,6 @@
-import { Cpu, HardDrive, MemoryStick, Network, X } from 'lucide-react';
+import { Check, Cpu, HardDrive, MemoryStick, Network, Pencil, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { displayName, setAlias, useAliases } from '../aliases';
 import { api } from '../api';
 import type { HistoryPoint, ServerRow } from '../types';
 import { formatUptime } from '../utils';
@@ -13,6 +14,18 @@ interface Props {
 
 export function ServerDetail({ host, server, onClose }: Props) {
   const [history, setHistory] = useState<HistoryPoint[] | null>(null);
+  const aliases = useAliases();
+  const name = displayName(host, aliases);
+  const aliased = name !== host;
+  const [editing, setEditing] = useState(false);
+  const [draft, setDraft] = useState(name);
+
+  useEffect(() => { setDraft(name); }, [name]);
+
+  const saveAlias = () => {
+    setAlias(host, draft);
+    setEditing(false);
+  };
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
@@ -45,14 +58,50 @@ export function ServerDetail({ host, server, onClose }: Props) {
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between p-4 border-b border-slate-200 dark:border-slate-800 sticky top-0 bg-white dark:bg-slate-900 z-10">
-          <div className="min-w-0">
+          <div className="min-w-0 flex-1">
             <h2 className="text-lg font-semibold flex items-center gap-2">
               <span className={`inline-block w-2.5 h-2.5 rounded-full ${
                 server?.online ? 'bg-emerald-500' : 'bg-slate-400'
               }`} />
-              {host}
+              {editing ? (
+                <>
+                  <input
+                    className="input !py-1 !text-base max-w-xs"
+                    value={draft}
+                    onChange={(e) => setDraft(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') saveAlias();
+                      if (e.key === 'Escape') { setDraft(name); setEditing(false); }
+                    }}
+                    placeholder={host}
+                    autoFocus
+                  />
+                  <button onClick={saveAlias} className="btn-secondary !p-1.5" title="Kaydet">
+                    <Check size={14} />
+                  </button>
+                  <button
+                    onClick={() => { setDraft(name); setEditing(false); }}
+                    className="btn-secondary !p-1.5"
+                    title="İptal"
+                  >
+                    <X size={14} />
+                  </button>
+                </>
+              ) : (
+                <>
+                  <span className="truncate">{name}</span>
+                  <button
+                    onClick={() => setEditing(true)}
+                    className="text-slate-400 hover:text-slate-700 dark:hover:text-slate-200"
+                    title="Görünen adı düzenle (sadece bu tarayıcıda)"
+                  >
+                    <Pencil size={14} />
+                  </button>
+                </>
+              )}
             </h2>
             <p className="text-xs text-slate-500 dark:text-slate-400">
+              {aliased && <span className="font-mono mr-2">{host}</span>}
               {server?.ip ?? '—'} · {server?.os ?? '—'}
             </p>
           </div>

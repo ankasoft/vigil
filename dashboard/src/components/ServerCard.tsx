@@ -1,4 +1,5 @@
 import { Activity, Cpu, HardDrive, MemoryStick } from 'lucide-react';
+import { displayName, useAliases } from '../aliases';
 import type { ServerRow } from '../types';
 import { formatRelative, formatUptime, levelColor } from '../utils';
 
@@ -38,6 +39,9 @@ function Bar({ label, value, online, icon }: {
 export function ServerCard({ server, onClick }: Props) {
   const s = server.snapshot;
   const online = server.online;
+  const aliases = useAliases();
+  const name = displayName(server.host, aliases);
+  const aliased = name !== server.host;
 
   const cpu = s?.cpu_max ?? s?.cpu ?? 0;
   const ram = s?.ram_max ?? s?.ram ?? 0;
@@ -55,11 +59,12 @@ export function ServerCard({ server, onClick }: Props) {
             <span className={`inline-block w-2 h-2 rounded-full ${
               online ? 'bg-emerald-500' : 'bg-slate-400'
             }`} />
-            <h3 className="font-semibold truncate">{server.host}</h3>
+            <h3 className="font-semibold truncate">{name}</h3>
           </div>
           <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 truncate">
-            {server.ip ?? '—'}
-            {server.os ? ` · ${server.os}` : ''}
+            {aliased ? <span className="font-mono">{server.host}</span> : (server.ip ?? '—')}
+            {!aliased && server.os ? ` · ${server.os}` : ''}
+            {aliased && server.ip ? ` · ${server.ip}` : ''}
           </p>
         </div>
         <div className="text-right text-xs text-slate-500 dark:text-slate-400 shrink-0 ml-2">

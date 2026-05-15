@@ -65,6 +65,17 @@ Sonraki deploylar için aynı komut yeterli.
 
 Auth detayları: [AUTH.md](AUTH.md).
 
+## Sunucu görünen adlarını özelleştirme
+
+Bir host'a tarayıcına özel **alias** verebilirsin:
+
+1. Karta tıkla → detay modalı açılır.
+2. Başlıktaki kalem ikonuna (✎) tıkla.
+3. Yeni adı yaz → Enter (veya tikle ✓), iptal için Esc (veya ✗).
+4. Hem kartta hem modalda bu ad görünür; gerçek hostname küçük puntoda görünmeye devam eder.
+
+Saklama: tamamen `localStorage` (`vigil_host_aliases` anahtarı). Sadece o tarayıcıda geçerli; başka cihaz/tarayıcıdan girdiğinde varsayılan hostname görünür. Temizlemek için: input'u boşalt ve kaydet.
+
 ## 5. Custom domain (opsiyonel)
 
 Cloudflare Pages → Project → **Custom domains** → Add. DNS otomatik yönetilir.
