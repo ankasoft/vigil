@@ -15,6 +15,9 @@ dashboard/dist/
 dashboard/.env
 dashboard/.env.local
 
+# TypeScript incremental build cache
+*.tsbuildinfo
+
 # IDE
 .vscode/
 .idea/
