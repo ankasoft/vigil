@@ -180,13 +180,21 @@ def detect_os():
 
 # --- POST -----------------------------------------------------------------
 
+USER_AGENT = "vigil-agent/0.1"
+
+
 def post(payload):
     data = json.dumps(payload).encode("utf-8")
     req = urllib.request.Request(
         HUB_URL + "/api/ingest",
         data=data,
         method="POST",
-        headers={"Content-Type": "application/json", "X-API-Key": API_KEY},
+        headers={
+            "Content-Type": "application/json",
+            "X-API-Key": API_KEY,
+            # Cloudflare blocks default Python-urllib UA with error 1010 (bot fight).
+            "User-Agent": USER_AGENT,
+        },
     )
     try:
         with urllib.request.urlopen(req, timeout=5) as resp:

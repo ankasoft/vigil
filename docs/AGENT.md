@@ -129,3 +129,5 @@ sudo systemctl daemon-reload
 | Disk listesinde `/` görünmüyor | systemd `User=nobody` ile çalışıyor; bazı mount'ları okuyamıyor olabilir — root'a alın |
 | CPU yüzdeleri hep 0 | İlk POST'tan önce delta yok; bir sonraki INTERVAL'da düzelir |
 | Çok yüksek CPU (>1%) | Beklenmedik — issue açın; muhtemel sebep: çok sayıda mount + sık `statvfs` |
+| Agent çalışıyor ama dashboard'da görünmüyor | Cloudflare'in Bot Fight Mode'u Python-urllib UA'sını engelliyor olabilir (error 1010). Agent zaten `User-Agent: vigil-agent/0.1` yolluyor; yine de sorun varsa `debug.py` ile test edin |
+| `HTTPError status=403 body=error code: 1010` | Cloudflare bot fight engeli. Agent User-Agent'ini değiştirin veya CF panel → Security → Bot Fight Mode'u kapatın |

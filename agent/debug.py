@@ -65,6 +65,8 @@ def main():
         headers={
             "Content-Type": "application/json",
             "X-API-Key": key,
+            # Cloudflare blocks default Python-urllib UA with error 1010.
+            "User-Agent": "vigil-agent/0.1",
         },
     )
 
