@@ -59,7 +59,15 @@ if ! command -v python3 >/dev/null 2>&1; then
   exit 1
 fi
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# When piped via `curl | bash`, BASH_SOURCE[0] is unset; default to empty so
+# `set -u` doesn't abort, then fall back to the current dir (agent.py won't be
+# there, which triggers the download below).
+SRC="${BASH_SOURCE[0]:-}"
+if [[ -n "$SRC" ]]; then
+  SCRIPT_DIR="$(cd "$(dirname "$SRC")" && pwd)"
+else
+  SCRIPT_DIR="$(pwd)"
+fi
 
 # When piped from curl there's no local agent.py — fetch it.
 SRC_AGENT="$SCRIPT_DIR/agent.py"
