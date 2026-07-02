@@ -39,7 +39,7 @@ export function AlertBanner() {
             <span className="opacity-90">{a.host}</span>
             {a.value !== undefined && a.threshold !== undefined && (
               <span className="opacity-90 ml-2">
-                — {a.value.toFixed(1)}% (eşik {a.threshold}%)
+                — {a.value.toFixed(1)}% (threshold {a.threshold}%)
               </span>
             )}
           </div>

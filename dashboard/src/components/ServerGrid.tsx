@@ -26,7 +26,7 @@ export function ServerGrid() {
   }, []);
 
   if (err && servers === null) {
-    return <div className="card p-6 text-red-600">Bağlanılamadı: {err}</div>;
+    return <div className="card p-6 text-red-600">Connection failed: {err}</div>;
   }
 
   if (servers === null) {
@@ -52,10 +52,10 @@ export function ServerGrid() {
     <div>
       <div className="flex items-center gap-2 mb-4 text-sm">
         <span className="px-2 py-0.5 rounded-full bg-slate-200 dark:bg-slate-800">
-          Toplam: <b className="ml-1">{total}</b>
+          Total: <b className="ml-1">{total}</b>
         </span>
         <span className="px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300">
-          Uyarı: <b className="ml-1">{warn}</b>
+          Warning: <b className="ml-1">{warn}</b>
         </span>
         <span className="px-2 py-0.5 rounded-full bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300">
           Offline: <b className="ml-1">{offline}</b>
@@ -66,7 +66,7 @@ export function ServerGrid() {
 
       {total === 0 ? (
         <div className="card p-8 text-center text-slate-500">
-          Henüz hiçbir sunucu rapor göndermedi. Bir sunucuya agent kurun ve birkaç dakika bekleyin.
+          No server has reported yet. Install the agent on a server and wait a few minutes.
         </div>
       ) : (
         <div className="grid gap-4" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))' }}>

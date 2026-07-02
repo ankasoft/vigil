@@ -76,13 +76,13 @@ export function ServerDetail({ host, server, onClose }: Props) {
                     placeholder={host}
                     autoFocus
                   />
-                  <button onClick={saveAlias} className="btn-secondary !p-1.5" title="Kaydet">
+                  <button onClick={saveAlias} className="btn-secondary !p-1.5" title="Save">
                     <Check size={14} />
                   </button>
                   <button
                     onClick={() => { setDraft(name); setEditing(false); }}
                     className="btn-secondary !p-1.5"
-                    title="İptal"
+                    title="Cancel"
                   >
                     <X size={14} />
                   </button>
@@ -93,7 +93,7 @@ export function ServerDetail({ host, server, onClose }: Props) {
                   <button
                     onClick={() => setEditing(true)}
                     className="text-slate-400 hover:text-slate-700 dark:hover:text-slate-200"
-                    title="Görünen adı düzenle (sadece bu tarayıcıda)"
+                    title="Edit display name (this browser only)"
                   >
                     <Pencil size={14} />
                   </button>
@@ -118,7 +118,7 @@ export function ServerDetail({ host, server, onClose }: Props) {
                   sub={snap ? `peak ${snap.cpu_max.toFixed(0)}%` : ''} />
             <Tile icon={<MemoryStick size={14} />} label="RAM"
                   value={snap ? `${snap.ram.toFixed(0)}%` : '—'}
-                  sub={snap ? `${snap.ram_total_mb} MB toplam` : ''} />
+                  sub={snap ? `${snap.ram_total_mb} MB total` : ''} />
             <Tile icon={<HardDrive size={14} />} label="Disk /"
                   value={snap ? `${snap.disk_root.toFixed(0)}%` : '—'} />
             <Tile icon={<Network size={14} />} label="Net IN/OUT"
@@ -134,7 +134,7 @@ export function ServerDetail({ host, server, onClose }: Props) {
           {history === null ? (
             <div className="card p-6 animate-pulse h-72" />
           ) : history.length === 0 ? (
-            <div className="card p-6 text-center text-slate-500">Henüz veri yok.</div>
+            <div className="card p-6 text-center text-slate-500">No data yet.</div>
           ) : (
             <div className="grid md:grid-cols-2 gap-4">
               <ChartCard title="CPU (%)">
@@ -183,13 +183,13 @@ export function ServerDetail({ host, server, onClose }: Props) {
           {/* All mounts */}
           {snap && snap.disks && snap.disks.length > 1 && (
             <div className="card p-4">
-              <h3 className="text-sm font-semibold mb-2">Tüm mountlar</h3>
+              <h3 className="text-sm font-semibold mb-2">All mounts</h3>
               <table className="w-full text-sm">
                 <thead className="text-xs text-slate-500">
                   <tr><th className="text-left py-1">Mount</th>
                       <th className="text-right">%</th>
-                      <th className="text-right">Kullanılan</th>
-                      <th className="text-right">Toplam</th></tr>
+                      <th className="text-right">Used</th>
+                      <th className="text-right">Total</th></tr>
                 </thead>
                 <tbody>
                   {snap.disks.map((d) => (

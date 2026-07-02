@@ -27,7 +27,7 @@ export function NotificationSettings() {
   useEffect(() => {
     api.getSettings()
       .then((cfg) => { setS(cfg); setLoaded(true); })
-      .catch((e) => toast('error', `Ayarlar yüklenemedi: ${e}`));
+      .catch((e) => toast('error', `Failed to load settings: ${e}`));
   }, []);
 
   useEffect(() => {
@@ -47,12 +47,12 @@ export function NotificationSettings() {
     setSaving(true);
     try {
       await api.saveSettings(s);
-      toast('success', 'Ayarlar kaydedildi');
+      toast('success', 'Settings saved');
       // Re-fetch to pick up new masked values.
       const cfg = await api.getSettings();
       setS(cfg);
     } catch (e) {
-      toast('error', `Kaydedilemedi: ${e}`);
+      toast('error', `Save failed: ${e}`);
     } finally {
       setSaving(false);
     }
@@ -61,8 +61,8 @@ export function NotificationSettings() {
   const test = async (channel: 'telegram' | 'googlechat') => {
     try {
       const r = await api.testChannel(channel);
-      if (r.ok) toast('success', 'Test mesajı gönderildi');
-      else toast('error', `Başarısız: ${r.error}`);
+      if (r.ok) toast('success', 'Test message sent');
+      else toast('error', `Failed: ${r.error}`);
     } catch (e) {
       toast('error', String(e));
     }
@@ -81,7 +81,7 @@ export function NotificationSettings() {
 
       <div className="flex justify-end gap-2">
         <button className="btn" disabled={saving} onClick={save}>
-          {saving ? 'Kaydediliyor…' : 'Kaydet'}
+          {saving ? 'Saving…' : 'Save'}
         </button>
       </div>
 
@@ -130,19 +130,19 @@ function TelegramPanel({ s, setS, onTest }: {
       </div>
       <div className="flex gap-2">
         <button className="btn-secondary" onClick={onTest} type="button">
-          <Send size={14} /> Test Gönder
+          <Send size={14} /> Send Test
         </button>
         <button className="btn-secondary" onClick={() => setHelp(!help)} type="button">
-          {help ? <ChevronUp size={14} /> : <ChevronDown size={14} />} Kurulum
+          {help ? <ChevronUp size={14} /> : <ChevronDown size={14} />} Setup
         </button>
       </div>
       {help && (
         <ol className="text-xs text-slate-600 dark:text-slate-400 list-decimal pl-5 space-y-1">
-          <li>Telegram'da <b>@BotFather</b> üzerinden yeni bot oluşturun → token'ı alın.</li>
-          <li>Bildirim alacağınız grup/kanala botu ekleyin.</li>
-          <li>Chat ID için: kanala bir mesaj atın, sonra
+          <li>Create a new bot via <b>@BotFather</b> in Telegram → get the token.</li>
+          <li>Add the bot to the group/channel where you want to receive notifications.</li>
+          <li>For the Chat ID: send a message to the channel, then
             <code className="mx-1 px-1 rounded bg-slate-200 dark:bg-slate-800">https://api.telegram.org/bot&lt;TOKEN&gt;/getUpdates</code>
-            adresinden chat id'yi okuyun (negatif sayı).
+            read the chat id from this address (a negative number).
           </li>
         </ol>
       )}
@@ -181,17 +181,17 @@ function GoogleChatPanel({ s, setS, onTest }: {
       </div>
       <div className="flex gap-2">
         <button className="btn-secondary" onClick={onTest} type="button">
-          <Send size={14} /> Test Gönder
+          <Send size={14} /> Send Test
         </button>
         <button className="btn-secondary" onClick={() => setHelp(!help)} type="button">
-          {help ? <ChevronUp size={14} /> : <ChevronDown size={14} />} Kurulum
+          {help ? <ChevronUp size={14} /> : <ChevronDown size={14} />} Setup
         </button>
       </div>
       {help && (
         <ol className="text-xs text-slate-600 dark:text-slate-400 list-decimal pl-5 space-y-1">
-          <li>Google Chat → Space → <b>Apps & integrations</b> menüsü.</li>
-          <li><b>Webhooks → Add webhook</b> ile yeni webhook oluşturun.</li>
-          <li>Üretilen URL'i yukarıdaki alana yapıştırın.</li>
+          <li>Google Chat → Space → <b>Apps & integrations</b> menu.</li>
+          <li>Create a new webhook via <b>Webhooks → Add webhook</b>.</li>
+          <li>Paste the generated URL into the field above.</li>
         </ol>
       )}
     </div>
@@ -203,26 +203,26 @@ function GoogleChatPanel({ s, setS, onTest }: {
 function ThresholdPanel({ s, setS }: { s: Settings; setS: (s: Settings) => void }) {
   return (
     <div className="card p-4 space-y-3">
-      <h3 className="text-sm font-semibold">Eşik değerleri</h3>
+      <h3 className="text-sm font-semibold">Threshold values</h3>
       <div className="grid sm:grid-cols-3 gap-3">
-        <NumberInput label="CPU eşiği (%)" value={s.threshold_cpu} min={0} max={100}
+        <NumberInput label="CPU threshold (%)" value={s.threshold_cpu} min={0} max={100}
           onChange={(v) => setS({ ...s, threshold_cpu: v })} />
-        <NumberInput label="RAM eşiği (%)" value={s.threshold_ram} min={0} max={100}
+        <NumberInput label="RAM threshold (%)" value={s.threshold_ram} min={0} max={100}
           onChange={(v) => setS({ ...s, threshold_ram: v })} />
-        <NumberInput label="Disk eşiği (%)" value={s.threshold_disk} min={0} max={100}
+        <NumberInput label="Disk threshold (%)" value={s.threshold_disk} min={0} max={100}
           onChange={(v) => setS({ ...s, threshold_disk: v })} />
       </div>
       <div className="flex flex-col sm:flex-row sm:items-end gap-3">
-        <NumberInput label="Cooldown (dakika)" value={s.cooldown_minutes} min={1} max={1440}
+        <NumberInput label="Cooldown (minutes)" value={s.cooldown_minutes} min={1} max={1440}
           onChange={(v) => setS({ ...s, cooldown_minutes: v })} />
         <Toggle
-          label="Sunucu down olunca bildir"
+          label="Notify when server goes down"
           on={s.alert_on_down}
           onChange={(v) => setS({ ...s, alert_on_down: v })}
         />
       </div>
       <p className="text-xs text-slate-500 dark:text-slate-400">
-        Cooldown: aynı sunucu ve aynı sebep için bu süre boyunca tek bildirim atılır.
+        Cooldown: only a single notification is sent for the same server and same reason during this period.
       </p>
     </div>
   );
@@ -272,17 +272,17 @@ function Toggle({ label, on, onChange }: {
 function NotificationLogTable({ log }: { log: NotificationLogEntry[] }) {
   return (
     <div className="card">
-      <h3 className="text-sm font-semibold p-4 pb-2">Son bildirimler</h3>
+      <h3 className="text-sm font-semibold p-4 pb-2">Recent notifications</h3>
       {log.length === 0 ? (
-        <p className="px-4 pb-4 text-sm text-slate-500">Henüz bildirim gönderilmedi.</p>
+        <p className="px-4 pb-4 text-sm text-slate-500">No notifications sent yet.</p>
       ) : (
         <table className="w-full text-sm">
           <thead className="text-xs text-slate-500">
             <tr className="border-b border-slate-200 dark:border-slate-800">
-              <th className="text-left px-4 py-2">Sunucu</th>
-              <th className="text-left px-4 py-2">Kanal</th>
-              <th className="text-left px-4 py-2">Sebep</th>
-              <th className="text-right px-4 py-2">Zaman</th>
+              <th className="text-left px-4 py-2">Server</th>
+              <th className="text-left px-4 py-2">Channel</th>
+              <th className="text-left px-4 py-2">Reason</th>
+              <th className="text-right px-4 py-2">Time</th>
             </tr>
           </thead>
           <tbody>

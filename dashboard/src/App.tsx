@@ -47,18 +47,18 @@ function Shell() {
             <button
               onClick={() => setView(view === 'settings' ? 'dashboard' : 'settings')}
               className={`btn-secondary ${view === 'settings' ? '!bg-sky-100 dark:!bg-sky-900/40' : ''}`}
-              title="Bildirim ayarları"
+              title="Notification settings"
             >
               <Settings size={16} />
-              <span className="hidden sm:inline">Ayarlar</span>
+              <span className="hidden sm:inline">Settings</span>
             </button>
             <button
               onClick={logout}
               className="btn-secondary"
-              title="Çıkış"
+              title="Logout"
             >
               <LogOut size={16} />
-              <span className="hidden sm:inline">Çıkış</span>
+              <span className="hidden sm:inline">Logout</span>
             </button>
           </div>
         </div>

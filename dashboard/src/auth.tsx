@@ -71,11 +71,11 @@ function LoginModal({ onSubmit }: { onSubmit: (t: string) => void }) {
           Vigil
         </h1>
         <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">
-          Admin token gerekli. Bu, Worker'a{' '}
+          Admin token required. This is the value you assigned to the Worker with{' '}
           <code className="px-1 rounded bg-slate-200 dark:bg-slate-800">
             wrangler secret put ADMIN_TOKEN
-          </code>{' '}
-          ile atadığınız değerdir.
+          </code>
+          .
         </p>
         <form
           onSubmit={(e) => {
@@ -100,11 +100,11 @@ function LoginModal({ onSubmit }: { onSubmit: (t: string) => void }) {
               onClick={() => setReveal(!reveal)}
               tabIndex={-1}
             >
-              {reveal ? 'Gizle' : 'Göster'}
+              {reveal ? 'Hide' : 'Show'}
             </button>
           </div>
           <button className="btn w-full" type="submit" disabled={!t.trim()}>
-            Giriş
+            Log in
           </button>
         </form>
       </div>
