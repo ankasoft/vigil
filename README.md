@@ -26,7 +26,7 @@ Runs on Cloudflare Workers + D1 + KV; scales without you having to operate a ser
 
 ## Quick start
 
-> See **[docs/INSTALL.md](docs/INSTALL.md)** for step-by-step instructions.
+> See **[docs/en/INSTALL.md](docs/en/INSTALL.md)** for step-by-step instructions.
 
 ```bash
 # 1. Deploy the Worker
@@ -62,13 +62,15 @@ curl -fsSL https://raw.githubusercontent.com/ankasoft/vigil/main/agent/install.s
 
 ## Documentation
 
-- [docs/INSTALL.md](docs/INSTALL.md) — Installation start page
-- [docs/WORKER.md](docs/WORKER.md) — Worker (API + cron) deployment
-- [docs/DASHBOARD.md](docs/DASHBOARD.md) — Dashboard (Pages) deployment
-- [docs/AGENT.md](docs/AGENT.md) — Agent installation & troubleshooting
-- [docs/AUTH.md](docs/AUTH.md) — API_KEY and ADMIN_TOKEN
-- [docs/NOTIFICATIONS.md](docs/NOTIFICATIONS.md) — Telegram & Google Chat
-- [docs/OPERATIONS.md](docs/OPERATIONS.md) — Changing thresholds, log cleanup, troubleshooting
+English (`docs/en/`) · Türkçe (`docs/tr/`)
+
+- [docs/en/INSTALL.md](docs/en/INSTALL.md) — Installation start page
+- [docs/en/WORKER.md](docs/en/WORKER.md) — Worker (API + cron) deployment
+- [docs/en/DASHBOARD.md](docs/en/DASHBOARD.md) — Dashboard (Pages) deployment
+- [docs/en/AGENT.md](docs/en/AGENT.md) — Agent installation & troubleshooting
+- [docs/en/AUTH.md](docs/en/AUTH.md) — API_KEY and ADMIN_TOKEN
+- [docs/en/NOTIFICATIONS.md](docs/en/NOTIFICATIONS.md) — Telegram & Google Chat
+- [docs/en/OPERATIONS.md](docs/en/OPERATIONS.md) — Changing thresholds, log cleanup, troubleshooting
 
 ## Contributing
 
