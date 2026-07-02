@@ -4,15 +4,15 @@ Open-source, zero-dependency, lightweight Linux server monitoring system.
 Runs on Cloudflare Workers + D1 + KV; scales without you having to operate a server.
 
 ```
-   ┌────────────┐        HTTPS         ┌──────────────────┐         ┌──────────────┐
-   │  Agent(s)  │   POST /api/ingest   │  Cloudflare      │  fetch  │  Dashboard   │
-   │  (Python)  │ ───────────────────▶ │  Worker          │ ◀────── │  (React SPA) │
-   │  systemd   │                      │  + KV + D1       │         │  CF Pages    │
-   └────────────┘                      │  + Cron (1m)     │         └──────────────┘
-                                       └────────┬─────────┘
-                                                │
-                                                ▼  (down / threshold)
-                                   Telegram   |   Google Chat
+  +------------+                      +------------------+        +--------------+
+  |  Agent(s)  |       HTTPS          |  Cloudflare      |  fetch |  Dashboard   |
+  |  (Python)  | POST /api/ingest --->|  Worker          | <----- |  (React SPA) |
+  |  systemd   |                      |  + KV + D1       |        |  CF Pages    |
+  +------------+                      |  + Cron (1m)     |        +--------------+
+                                      +--------+---------+
+                                               |
+                                               v  (down / threshold)
+                                     Telegram  |  Google Chat
 ```
 
 ## Components
